@@ -1,0 +1,73 @@
+<div class="add-task-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Add new task</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="taskFormGroup" (ngSubmit)="createTask()">
+                <!-- begin:: Task name field-->
+                <div class="row">
+                    <mat-form-field>
+                        <mat-label>Task name</mat-label>
+                        <input matInput formControlName="title" />
+                        <mat-error *ngIf="title.invalid">This field is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- end:: Task name field-->
+
+                <!-- begin:: Description field-->
+                <div class="row">
+                    <mat-form-field>
+                        <mat-label>Description</mat-label>
+                        <input matInput formControlName="description" />
+                    </mat-form-field>
+                </div>
+                <!-- end:: Description field-->
+
+                <!-- begin:: Priority field-->
+                <div class="row">
+                    <mat-label>Priority *</mat-label>
+                    <mat-radio-group formControlName="priority">
+                        <mat-radio-button [value]="priorityEnum.LOW">Low</mat-radio-button>
+                        <mat-radio-button [value]="priorityEnum.MEDIUM">Medium</mat-radio-button>
+                        <mat-radio-button [value]="priorityEnum.URGENT">Urgent</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <!-- end:: Priority field-->
+
+                <!-- begin:: Delivery date field-->
+                <div class="row">
+                    <mat-form-field>
+                        <mat-label>Delivery date</mat-label>
+                        <input matInput formControlName="deliveryDate" [matDatepicker]="picker"
+                            [min]="minDeliveryDate" />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="deliveryDate.invalid">This field is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- end:: Delivery date field-->
+
+                <!-- begin:: group field-->
+                <div class="row">
+                    <mat-label>Group</mat-label>
+                    <ng-select [items]="groups" [addTag]="addGroup" [hideSelected]="true" [multiple]="true"
+                        [maxSelectedItems]="1" bindLabel="title" bindValue="id" addTagText="add another tag"
+                        placeholder="choose an existing group or enter a new one*" formControlName="group"
+                        notFoundText="No groups found">
+                    </ng-select>
+                    <mat-error *ngIf="group.invalid && group.touched">This field is required</mat-error>
+                </div>
+                <!-- end:: group field-->
+
+                <mat-card-actions class="actions-container">
+                    <button mat-raised-button color="primary" type="submit">Add Task</button>
+                    <button mat-button type="button">Back to list</button>
+                </mat-card-actions>
+                <div class="text-center">
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
