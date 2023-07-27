@@ -6,18 +6,29 @@
 
   .tasks {
     margin-top: 2rem;
-  }
 
-  .task-title-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .task-priority {
-      padding: 0.4rem;
-      font-size: 0.8rem;
-      margin-bottom: 16px;
-      border-radius: 0.6rem;
+    .task-container{
+      text-decoration: none;
+      color: black;
     }
+
+    .task-title-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      h4{
+        margin-bottom: 0;
+      }
+  
+      .task-priority {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+        border-radius: 0.6rem;
+      }
+    }
+
   }
+
 }

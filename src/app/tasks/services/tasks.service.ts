@@ -66,7 +66,6 @@ export class TasksService {
   }
 
   getTask(id: number): TaskModel {
-    console.log(id);
     return this._tasks$.value.filter((task) => task.id == id)[0];
   }
 
@@ -74,14 +73,10 @@ export class TasksService {
     return this._tasks$.asObservable();
   }
 
-  getTasksLength(): number {
-    return this._tasks$.value.length;
-  }
-
   PriorityToText(priority: any): string {
-    if (priority == Priority.LOW) return 'Low';
-    if (priority == Priority.MEDIUM) return 'Medium';
-    if (priority == Priority.URGENT) return 'Urgent';
+    if (priority == Priority.LOW) return 'low';
+    if (priority == Priority.MEDIUM) return 'medium';
+    if (priority == Priority.URGENT) return 'urgent';
     return 'Unknown';
   }
 
@@ -97,6 +92,7 @@ export class TasksService {
     return this._groups;
   }
 
+  // check if a given task exists in tasks array
   private _ifTaskExistsInArr(target: TaskModel, tasks: TaskModel[]) {
     return tasks.findIndex((task) => target.id == task.id) != -1;
   }

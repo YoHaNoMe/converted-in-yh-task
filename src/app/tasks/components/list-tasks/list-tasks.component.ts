@@ -31,9 +31,10 @@ export class ListTasksComponent implements OnInit, OnDestroy {
    * end:: filtration form controls
    */
 
-  constructor(private tasksService: TasksService, private router: Router) {}
+  constructor(public tasksService: TasksService, private router: Router) {}
 
   ngOnInit(): void {
+    // fetch the tasks, and sort them by priority
     this._subscriptions$.push(
       this.tasksService.getAllTasks().subscribe((tasks) => {
         this.tasks = tasks;
@@ -58,7 +59,9 @@ export class ListTasksComponent implements OnInit, OnDestroy {
 
   isTaskSelected(task: TaskModel): boolean {
     return (
-      this.selectedTasks.findIndex((selectedTask) => selectedTask == task) != -1
+      this.selectedTasks.findIndex(
+        (selectedTask) => selectedTask.id == task.id
+      ) != -1
     );
   }
 
@@ -71,7 +74,8 @@ export class ListTasksComponent implements OnInit, OnDestroy {
       );
     }
 
-    if (this.selectedTasks.length < this.tasksService.getTasksLength()) {
+    // mark 'select all' checkbox as selected or unselcted
+    if (this.selectedTasks.length < this.tasks.length) {
       this.isAllSelected = false;
     } else {
       this.isAllSelected = true;
@@ -104,21 +108,18 @@ export class ListTasksComponent implements OnInit, OnDestroy {
             ) != -1
         )
     );
+    // get only the unique values
     filteredData = Array.from(new Set(filteredData));
-    console.log(filteredData);
+
+    // check if there is a filtration, then show the filtered data only
+    // else reset the data to the default
     if (filteredData) this.filteredData = filteredData;
     else this.filteredData = this.tasks;
   }
 
   sortTasks(tasks: TaskModel[]): TaskModel[] {
+    // Urgent -> Medium -> Low
     return tasks.sort((a, b) => b.priority - a.priority);
-  }
-
-  PriorityToText(priority: any): string {
-    if (priority == Priority.LOW) return 'Low';
-    if (priority == Priority.MEDIUM) return 'Medium';
-    if (priority == Priority.URGENT) return 'Urgent';
-    return 'Unknown';
   }
 
   goToAddTask() {

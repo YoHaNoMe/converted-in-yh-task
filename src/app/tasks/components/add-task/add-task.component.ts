@@ -31,6 +31,9 @@ export class AddTaskComponent implements OnInit {
     private tasksService: TasksService,
     private route: Router
   ) {
+    // add the context of this component by binding it to addGroup
+    // that's because addGroup is being called by ng-select, so we don't have a context for this component 
+    // and we want to access tasksService inside addGroup
     this.addGroup = this._addGroup.bind(this);
   }
 
@@ -56,10 +59,16 @@ export class AddTaskComponent implements OnInit {
       this.taskFormGroup.value.title ?? '',
       this.taskFormGroup.value.priority ?? this.priorityEnum.LOW,
       this.taskFormGroup.value.deliveryDate ?? new Date(),
-      this.extractGroupModel(this.taskFormGroup.value.group)
+      this.extractGroupModel(this.taskFormGroup.value.group),
+      this.taskFormGroup.value.description ?? ''
     );
 
     this.tasksService.addTask(taskObj);
+
+    // reset the form
+    this.taskFormGroup.reset();
+    this.deliveryDate.setValue(new Date());
+    this.priority.setValue(this.priorityEnum.LOW);
   }
 
   extractGroupModel(group: any) {
