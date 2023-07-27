@@ -1,0 +1,59 @@
+<div class="task-details-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Task details</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="task-">
+            <ng-container *ngIf="task">
+                <!-- begin:: Task name-->
+                <div class="row">
+                    <span class="title">Task name</span>
+                    <span class="value">{{task.title}}</span>
+                </div>
+                <!-- end:: Task name-->
+                <hr>
+                <!-- begin:: Description-->
+                <div class="row">
+                    <span class="title">Description</span>
+                    <span class="value">{{task.description || 'No description'}}</span>
+                </div>
+                <!-- end:: Description-->
+                <hr>
+                <!-- begin:: Priority-->
+                <div class="row">
+                    <span class="title">Priority</span>
+                    <span class="value">{{tasksService.PriorityToText(task.priority)}}</span>
+                </div>
+                <!-- end:: Priority-->
+                <hr>
+                <!-- begin:: Delivery date-->
+                <div class="row">
+                    <span class="title">Delivery Date</span>
+                    <span class="value">{{task.deliveryDate | date:'longDate'}}</span>
+                </div>
+                <!-- end:: Delivery date field-->
+                <hr>
+                <!-- begin:: group field-->
+                <div class="row">
+                    <span class="title">Group</span>
+                    <span class="value">{{task.group.title}}</span>
+                </div>
+                <!-- end:: group field-->
+                <hr>
+            </ng-container>
+
+            <ng-container *ngIf="!task">
+                <div class="row">
+                    <h4>No task found!</h4>
+                </div>
+            </ng-container>
+
+            <mat-card-actions class="actions-container">
+                <button mat-stroked-button color="primary" type="button" (click)="goBackToList()">Back to list</button>
+            </mat-card-actions>
+            <div class="text-center">
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

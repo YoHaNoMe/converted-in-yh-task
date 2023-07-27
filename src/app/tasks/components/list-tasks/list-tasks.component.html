@@ -1,0 +1,99 @@
+<div class="list-tasks-container">
+    <div class="filtration">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Filtration
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Task title</mat-label>
+                            <input matInput [formControl]="taskTitleFc" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Delivery Date</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="minDeliveryDate"
+                                [formControl]="deliveryDateFc" />
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-label>Group</mat-label>
+                        <ng-select [items]="groups" bindLabel="title" [multiple]="true" [hideSelected]="true"
+                            [minTermLength]="2" [formControl]="groupFc">
+                        </ng-select>
+                    </div>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions class="card-actions">
+                <button mat-raised-button color="primary" (click)="onSearchBtnClicked()">
+                    <mat-icon>search</mat-icon>
+                    Search
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="tasks">
+        <h2>Tasks</h2>
+        <div class="row align-items-center mb-4" *ngIf="tasks.length != 0">
+            <div class="col-1">
+                <mat-checkbox [checked]="isAllSelected" (change)="selectAll($event.checked)"></mat-checkbox>
+            </div>
+            <div class="col">
+                <button mat-stroked-button color="warn" class="me-2" (click)="deleteTask()"
+                    [disabled]="selectedTasks.length == 0">Delete
+                    selected</button>
+                <button mat-stroked-button color="primary" (click)="deleteTask()"
+                    [disabled]="selectedTasks.length == 0">Done selected</button>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <button mat-raised-button color="primary" (click)="goToAddTask()">
+                    <mat-icon>add</mat-icon>
+                    Add Task
+                </button>
+            </div>
+        </div>
+        <span *ngIf="tasks.length == 0">No tasks available! <a routerLink="add">Create new task</a></span>
+        <ng-container *ngFor="let task of filteredData">
+            <div class="row align-items-center mb-3">
+                <div class="col-1">
+                    <mat-checkbox [checked]="isTaskSelected(task)"
+                        (change)="onTaskSelectChange($event, task)"></mat-checkbox>
+                </div>
+                <div class="col">
+                    <a [routerLink]="[task.id]" class="task-container">
+                        <mat-card>
+                            <mat-card-content>
+                                <div class="task-title-container">
+                                    <div>
+                                        <h4 class="fw-bold">{{task.title}}</h4>
+                                        <span>{{task.description}}</span>
+                                    </div>
+                                    <span class="task-priority bg-opacity-25" [ngClass]="{
+                                            'bg-secondary': task.priority == PriorityEnum.LOW,
+                                            'bg-warning': task.priority == PriorityEnum.MEDIUM,
+                                            'bg-danger': task.priority == PriorityEnum.URGENT}">
+                                        {{tasksService.PriorityToText(task.priority) | uppercase}}
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span>{{task.group.title}}</span>
+                                    <span class="mx-2 fs-4">&#x2022;</span>
+                                    <span class="fw-light">delivery date: {{task.deliveryDate | date:'longDate'}}</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </a>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
