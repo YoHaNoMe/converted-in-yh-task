@@ -15,9 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TasksService } from './services/tasks.service';
 import { ListTasksComponent } from './components/list-tasks/list-tasks.component';
+import { TaskDetailsComponent } from './components/task-details/task-details.component';
 
 @NgModule({
-  declarations: [AddTaskComponent, ListTasksComponent],
+  declarations: [AddTaskComponent, ListTasksComponent, TaskDetailsComponent],
   imports: [
     CommonModule,
     TasksRoutingModule,
