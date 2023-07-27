@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Priority, TaskModel } from '../../models/task';
 import { TasksService } from '../../services/tasks.service';
 import { GroupModel } from '../../models/group';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
@@ -25,7 +26,11 @@ export class AddTaskComponent implements OnInit {
 
   minDeliveryDate = new Date();
 
-  constructor(private fb: FormBuilder, private tasksService: TasksService) {
+  constructor(
+    private fb: FormBuilder,
+    private tasksService: TasksService,
+    private route: Router
+  ) {
     this.addGroup = this._addGroup.bind(this);
   }
 
@@ -45,8 +50,24 @@ export class AddTaskComponent implements OnInit {
       this.taskFormGroup.markAllAsTouched();
       return;
     }
-    const task = this.taskFormGroup.value as TaskModel;
-    this.tasksService.addTask(task);
+
+    // the form is valid
+    const taskObj = new TaskModel(
+      this.taskFormGroup.value.title ?? '',
+      this.taskFormGroup.value.priority ?? this.priorityEnum.LOW,
+      this.taskFormGroup.value.deliveryDate ?? new Date(),
+      this.extractGroupModel(this.taskFormGroup.value.group)
+    );
+
+    this.tasksService.addTask(taskObj);
+  }
+
+  extractGroupModel(group: any) {
+    return new GroupModel(group[0].id, group[0].title);
+  }
+
+  goBackToList() {
+    this.route.navigate(['/tasks']);
   }
 
   /**

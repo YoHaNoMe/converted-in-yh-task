@@ -11,10 +11,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TasksService } from './services/tasks.service';
+import { ListTasksComponent } from './components/list-tasks/list-tasks.component';
 
 @NgModule({
-  declarations: [AddTaskComponent],
+  declarations: [AddTaskComponent, ListTasksComponent],
   imports: [
     CommonModule,
     TasksRoutingModule,
@@ -28,6 +31,8 @@ import { TasksService } from './services/tasks.service';
     MatNativeDateModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
+    MatCheckboxModule,
   ],
   providers: [TasksService],
 })

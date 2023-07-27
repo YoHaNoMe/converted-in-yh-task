@@ -1,24 +1,76 @@
 import { Injectable } from '@angular/core';
 import { TaskModel } from '../models/task';
 import { GroupModel } from '../models/group';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class TasksService {
-  private _tasks: TaskModel[] = [];
-  private _groups: GroupModel[] = [];
+  private _tasks$: BehaviorSubject<TaskModel[]> = new BehaviorSubject<
+    TaskModel[]
+  >([
+    {
+      id: 1,
+      title: 'test',
+      description: '',
+      priority: 0,
+      deliveryDate: new Date(),
+      group: {
+        id: 1,
+        title: 'sdjsak',
+      },
+    },
+    {
+      id: 2,
+      title: 'test1',
+      description: '',
+      priority: 0,
+      deliveryDate: new Date(),
+      group: {
+        id: 1,
+        title: 'sdjsak',
+      },
+    },
+    {
+      id: 3,
+      title: 'hello',
+      description: '',
+      priority: 0,
+      deliveryDate: new Date(),
+      group: {
+        id: 1,
+        title: 'sdjsak',
+      },
+    },
+  ]);
+
+  private _groups: GroupModel[] = [
+    {
+      id: 1,
+      title: 'sdjsak',
+    },
+  ];
 
   constructor() {}
 
   addTask(task: TaskModel) {
-    this._tasks.push(task);
+    const currentTasks = this._tasks$.value;
+    this._tasks$.next([...currentTasks, task]);
   }
 
-  removeTask(task: TaskModel) {
-    this._tasks = this._tasks.filter((val) => val != task);
+  removeTask(...tasks: TaskModel[]) {
+    const currenTasks = this._tasks$.value;
+    const newTasks = currenTasks.filter(
+      (val) => !this._ifTaskExistsInArr(val, tasks)
+    );
+    this._tasks$.next(newTasks);
   }
 
-  getAllTasks(): TaskModel[] {
-    return this._tasks;
+  getAllTasks(): Observable<TaskModel[]> {
+    return this._tasks$.asObservable();
+  }
+
+  getTasksLength(): number {
+    return this._tasks$.value.length;
   }
 
   addGroup(group: GroupModel) {
@@ -31,5 +83,9 @@ export class TasksService {
 
   getAllGroups(): GroupModel[] {
     return this._groups;
+  }
+
+  private _ifTaskExistsInArr(target: TaskModel, tasks: TaskModel[]) {
+    return tasks.findIndex((task) => target.id == task.id) != -1;
   }
 }

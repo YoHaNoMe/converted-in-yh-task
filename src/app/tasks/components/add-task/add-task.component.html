@@ -53,7 +53,7 @@
                 <div class="row">
                     <mat-label>Group</mat-label>
                     <ng-select [items]="groups" [addTag]="addGroup" [hideSelected]="true" [multiple]="true"
-                        [maxSelectedItems]="1" bindLabel="title" bindValue="id" addTagText="add another tag"
+                        [maxSelectedItems]="1" bindLabel="title" addTagText="add another tag"
                         placeholder="choose an existing group or enter a new one*" formControlName="group"
                         notFoundText="No groups found">
                     </ng-select>
@@ -63,7 +63,7 @@
 
                 <mat-card-actions class="actions-container">
                     <button mat-raised-button color="primary" type="submit">Add Task</button>
-                    <button mat-button type="button">Back to list</button>
+                    <button mat-button type="button" (click)="goBackToList()">Back to list</button>
                 </mat-card-actions>
                 <div class="text-center">
                 </div>
