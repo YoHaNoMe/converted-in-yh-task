@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TaskModel } from '../models/task';
+import { Priority, TaskModel } from '../models/task';
 import { GroupModel } from '../models/group';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -11,7 +11,7 @@ export class TasksService {
     {
       id: 1,
       title: 'test',
-      description: '',
+      description: 'this is description',
       priority: 0,
       deliveryDate: new Date(),
       group: {
@@ -65,12 +65,24 @@ export class TasksService {
     this._tasks$.next(newTasks);
   }
 
+  getTask(id: number): TaskModel {
+    console.log(id);
+    return this._tasks$.value.filter((task) => task.id == id)[0];
+  }
+
   getAllTasks(): Observable<TaskModel[]> {
     return this._tasks$.asObservable();
   }
 
   getTasksLength(): number {
     return this._tasks$.value.length;
+  }
+
+  PriorityToText(priority: any): string {
+    if (priority == Priority.LOW) return 'Low';
+    if (priority == Priority.MEDIUM) return 'Medium';
+    if (priority == Priority.URGENT) return 'Urgent';
+    return 'Unknown';
   }
 
   addGroup(group: GroupModel) {
