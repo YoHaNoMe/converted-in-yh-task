@@ -1,0 +1,23 @@
+.list-tasks-container {
+  .card-actions {
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .tasks {
+    margin-top: 2rem;
+  }
+
+  .task-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .task-priority {
+      padding: 0.4rem;
+      font-size: 0.8rem;
+      margin-bottom: 16px;
+      border-radius: 0.6rem;
+    }
+  }
+}
